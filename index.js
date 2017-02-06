@@ -1,44 +1,60 @@
 const express = require('express'); 
-const keys = require('./keys.js');
+const ConversationV1 = require('watson-developer-cloud/conversation/v1');
 
 const app = express();
 
-const ConversationV1 = require('watson-developer-cloud/conversation/v1');
-const client = require('twilio')(keys.twilioAccountSid, keys.twilioAuthToken); 
+const keys = require('./keys.js');
+
 {/*A history of any clients and their previous conversations with Watson*/}
 let contexts = [];
 
-app.get('smssent', (req, res, err) => {
-  var message = req.query.Body;
-  var number = req.query.From;
-  var twilioNumber = req.query.To;
+app.get('/smssent', (req, res, err) => {
+  let message = req.query.Body;
+  let number = req.query.From;
+  let twilioNumber = req.query.To;
   console.log('Ive recieved a' + message + 'from ' + number + 'twilio number is ' + twilioNumber);
   res.send(message).status(200);
 
-  //store message history in context
-  
+  let context = null;
+  let index = 0; 
+  let indexForContext = 0;
+
+  contexts.forEach((val) => {
+    if (val.from === number) {
+      context = val.context;
+      contextIndex = index;
+    }
+    index += 1;
+  }); 
+  //store message history in context  
   let conversation = new ConversationV1({
-  username: 'FILL_ME_IN',
-  password: 'FILL_ME_IN',
-  version_date: ConversationV1.VERSION_DATE_2016_09_20
+    username: 'FILL_ME_IN',
+    password: 'FILL_ME_IN',
+    version_date: ConversationV1.VERSION_DATE_2016_09_20
   });
   
   conversation.message({
-  input: { text: 'What\'s the weather?' },
-  workspace_id: '<workspace id>'
+  input: { text: message },
+  workspace_id: 'FILL_ME_IN'
   }, function(err, response) {
       if (err) {
       console.error(err);
       } else {
-      console.log(JSON.stringify(response, null, 2));
+      console.log(JSON.stringify(response, null, 2)); // for testing
       }
   });
   //configure Watson API
-
-  //send message to Watson Developer API
-
-
-
+  const client = require('twilio')(keys.twilioAccountSid, keys.twilioAuthToken); 
+  client.messages.create({
+    from: 'TWILIO_Number',
+    to: number,
+    body: response.output.text[0] /// verify this response 
+  }, (err, message) => {
+    if (err) {
+      console.error(err.message)
+    }
+  })
+  res.send(''); 
 });
 
 app.listen(3000, () => {

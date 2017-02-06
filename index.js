@@ -28,14 +28,14 @@ app.get('/smssent', (req, res, err) => {
   }); 
   //store message history in context  
   let conversation = new ConversationV1({
-    username: 'FILL_ME_IN',
-    password: 'FILL_ME_IN',
+    username: keys.watsonUsername,
+    password: keys.watsonPassword,
     version_date: ConversationV1.VERSION_DATE_2016_09_20
   });
   
   conversation.message({
   input: { text: message },
-  workspace_id: 'FILL_ME_IN'
+  workspace_id: keys.workSpaceId
   }, function(err, response) {
       if (err) {
       console.error(err);
@@ -43,10 +43,10 @@ app.get('/smssent', (req, res, err) => {
       console.log(JSON.stringify(response, null, 2)); // for testing
       }
   });
-  //configure Watson API
+
   const client = require('twilio')(keys.twilioAccountSid, keys.twilioAuthToken); 
   client.messages.create({
-    from: 'TWILIO_Number',
+    from: twilioNumber,
     to: number,
     body: response.output.text[0] /// verify this response 
   }, (err, message) => {

@@ -25,6 +25,7 @@
   "homepage": "https://github.com/aarboleda1/IBM_Watson-Twilio-Ordering_System#readme",
   "dependencies": {
     "express": "^4.14.1",
-    "twilio": "^2.11.1"
+    "twilio": "^2.11.1",
+    "watson-developer-cloud": "^2.17.0"
   }
 }

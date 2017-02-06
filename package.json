@@ -1,0 +1,29 @@
+{
+  "name": "orderfromme",
+  "version": "1.0.0",
+  "description": "SMS based ordering system using the IBM Watson API",
+  "main": "index.js",
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aarboleda1/IBM_Watson-Twilio-Ordering_System.git"
+  },
+  "keywords": [
+    "AI",
+    "Watson",
+    "Twilio",
+    "Node",
+    "Express"
+  ],
+  "author": "Anton Arboleda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aarboleda1/IBM_Watson-Twilio-Ordering_System/issues"
+  },
+  "homepage": "https://github.com/aarboleda1/IBM_Watson-Twilio-Ordering_System#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}

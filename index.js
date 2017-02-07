@@ -9,6 +9,7 @@ const keys = require('./keys.js');
 let contexts = [];
 
 app.get('/smssent', (req, res, err) => {
+  console.log('hello world')
   let message = req.query.Body;
   let number = req.query.From;
   let twilioNumber = req.query.To;
@@ -32,6 +33,7 @@ app.get('/smssent', (req, res, err) => {
     password: keys.watsonPassword,
     version_date: ConversationV1.VERSION_DATE_2016_09_20
   });
+
   
   conversation.message({
   input: { text: message },
